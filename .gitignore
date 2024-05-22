@@ -1,0 +1,33 @@
+# Ignorar archivos y carpetas específicas de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Ignorar carpetas virtualenv
+venv/
+env/
+ENV/
+
+# Ignorar archivos de configuración del entorno
+#*.env
+
+# Ignorar archivos de logs
+# *.log
+
+# Ignorar archivos de base de datos SQLite
+# *.sqlite3
+
+# Ignorar directorios de despliegue
+*.egg-info/
+.dist/
+.build/
+
+# Ignorar archivos específicos de IDEs
+.vscode/
+.idea/
+
+# Ignorar archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db

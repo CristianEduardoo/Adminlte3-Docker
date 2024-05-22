@@ -1,0 +1,73 @@
+###########
+# BUILDER #
+###########
+
+# pull official base image
+FROM python:3.11.4-slim-buster as builder
+
+# set work directory
+WORKDIR /usr/src/adminlte3
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
+
+# lint
+RUN pip install --upgrade pip
+RUN pip install flake8==6.0.0
+COPY . /usr/src/adminlte3/
+RUN flake8 --ignore=E501,F401 .
+
+# install python dependencies
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/adminlte3/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+# pull official base image
+FROM python:3.11.4-slim-buster
+
+# create directory for the app user
+RUN mkdir -p /home/adminlte3
+
+# create the app user
+RUN addgroup --system adminlte3 && adduser --system --group adminlte3
+
+# create the appropriate directories
+ENV HOME=/home/adminlte3
+ENV APP_HOME=/home/adminlte3/web
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+RUN mkdir $APP_HOME/mediafiles
+WORKDIR $APP_HOME
+
+# install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends netcat
+COPY --from=builder /usr/src/adminlte3/wheels /wheels
+COPY --from=builder /usr/src/adminlte3/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+# copy entrypoint.prod.sh
+COPY ./entrypoint.prod.sh .
+RUN sed -i 's/\r$//g'  $APP_HOME/entrypoint.prod.sh
+RUN chmod +x  $APP_HOME/entrypoint.prod.sh
+
+# copy project
+COPY . $APP_HOME
+
+# chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
+# change to the app user
+USER adminlte3
+
+# run entrypoint.prod.sh
+ENTRYPOINT ["/home/adminlte3/web/entrypoint.prod.sh"]

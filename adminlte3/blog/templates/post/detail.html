@@ -1,0 +1,11 @@
+{% extends 'base_blog.html' %}
+
+{% block title %} {{my_post.title}} {% endblock title%}
+
+{%  block content %}
+
+    <h1>{{my_post.title}}</h1>
+    <p>{{my_post.content}}</p>
+    
+    <a href="{% url 'namespaceblog:post_list' %}"><button>Regresar</button></a>{% comment %} post_list => namespace {% endcomment %}
+{% endblock %}

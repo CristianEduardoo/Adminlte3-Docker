@@ -1,0 +1,9 @@
+{% extends 'base_login.html' %}
+
+{% block title %}Login out{% endblock title %}
+
+{% block content %}
+    <h2>Sesión cerrada correctamente</h2>
+    <p>¿Quieres iniciar sessión?</p>
+    <a href="{% url 'login' %}">Iniciar sesión</a>
+{% endblock content %}

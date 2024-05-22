@@ -1,0 +1,28 @@
+{% extends 'base_login.html' %}
+
+{% block title %}Login{% endblock title %} 
+
+{% block content %}
+    <div class='contentedor-login'>
+        <h2>Iniciar sesión</h2>
+        <form action='' method='POST' >
+                {%  csrf_token %} {% comment %} generamos un token de seguridad {% endcomment %}
+                {{form.as_p}} {% comment %} Se trae el fromulario que tiene Django internamente {% endcomment %}
+                <input type="submit" value="Iniciar Sessión">
+        </form>
+
+        <div>
+            <p>No tienes una cuenta?</p>
+            <a href="{% url 'namespaceusuarios:user-register' %}">Regístrate!</a>  {% comment %} post_list => namespace {% endcomment %}   
+        </div>
+    </div>
+{% endblock content %}
+
+{% comment %} 
+    <input type="hidden" name='next' value="{{next}}"> 
+    //next, que generalmente se usa para redirigir al usuario a una página específica después de completar una acción. 
+
+    action='{% url 'login' %}' 
+    //la URL a la que se enviarán los datos del formulario.
+    // a una vista de inicio de sesión.
+{% endcomment %}

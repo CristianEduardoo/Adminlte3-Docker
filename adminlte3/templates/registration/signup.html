@@ -1,0 +1,14 @@
+{% extends 'base_login.html' %} 
+
+{% block title %}Registro de nuevo usuario{% endblock title %} 
+
+{% block content %}
+    <div class='contentedor-form'>
+        <h2>Registro de nuevo usuario</h2>
+        <form action='' method="post">
+            {% csrf_token %} 
+            {{ form.as_p }}  {% comment %} este fom, es de nuestro forms.py {% endcomment %}
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+{% endblock content %}

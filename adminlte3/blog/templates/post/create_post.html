@@ -1,0 +1,18 @@
+{% extends 'base_blog.html' %}
+
+{% block title %} Registro de publicacion {% endblock title %}
+
+{% block content %}
+    {% if new_post %}
+        <h1>Registro creado correctamente!!</h1>
+        <p>Ver detalles:</p><a href="{% url 'namespaceblog:post_detail' new_post.id%}">{{new_post.title}}</a>
+        
+    {% else %} {% comment %} Ocultamos el formulario {% endcomment %}
+        <h1>Registrar una nueva Publicacion</h1>
+        <form action='' method='POST' >
+            {{ registrar_post.as_p }} {% comment %} trae todo con parrafos {% endcomment %}
+            {% csrf_token %} {% comment %} generamos un token de seguridad {% endcomment %}
+            <input type="submit" value="Registrar">
+        </form>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base_login.html' %}
+
+{% block title %}
+    Detalles del Usuario y Notas
+{% endblock title %}
+
+{% block content %}
+    <h1>Detalles del Usuario</h1>
+    <p><strong>Usuario:</strong> {{ request.user.username }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ request.user.email }}</p>
+
+    <h2>Notas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre de la asignatura</th>
+                <th>Referencia de la asignatura</th>
+                <th>Puntuación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_note in udnotes %}
+                <tr>
+                    <td>{{ user_note.signature.nombre }}</td>
+                    <td>{{ user_note.signature.referencia }}</td>
+                    <td>{{ user_note.score }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>No hay notas disponibles</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

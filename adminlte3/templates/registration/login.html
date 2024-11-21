@@ -18,6 +18,8 @@
     </div>
 {% endblock content %}
 
+
+
 {% comment %} 
     <input type="hidden" name='next' value="{{next}}"> 
     //next, que generalmente se usa para redirigir al usuario a una página específica después de completar una acción. 
@@ -25,4 +27,13 @@
     action='{% url 'login' %}' 
     //la URL a la que se enviarán los datos del formulario.
     // a una vista de inicio de sesión.
+
+
+    """ Script para redirigir en caso de Login, lo mas optimo es a travez de la vista """
+    {% if request.user.is_authenticated %}
+        <script>
+            window.location.href = "{% url 'admin:index' %}";  // Redirige al área de administración
+        </script>
+    {% endif %}
+
 {% endcomment %}
